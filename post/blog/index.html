@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>Blog | My New Hugo Site</title>
+    <meta property="og:title" content="Blog - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-08-30T19:33:43&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-08-30T19:33:43&#43;08:00'>
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="Blog">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://vinyda.github.io/post/blog/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://vinyda.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://vinyda.github.io/">首页</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Blog</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年8月30日
+        </date>
+        
+        
+        
+        <div class="post-content">
+            <h2 id="使用pytest">使用pytest</h2>
+<p>pytest这个库是一个第三方库，严格来说，它的设计思路不属于xUnit系列。但它使用起来比较方便，同时他又<strong>兼容</strong>unittest的用例：用unittest写的测试脚本可以用pytest来执行.</p>
+<p>这种<strong>兼容性</strong>的设计，在测试执行器的设计思路层面上很普遍。举个例子，几乎所有测试执行器，都兼容junit的测试报告，他们都可以输出一种最初由junit提供的xml测试报告（有些测试执行器是原生自带这个功能，有些是用插件实现这个功能）。<strong>兼容现有工具</strong>，有利于新工具的推广，因此各种比较知名的测试执行器都会从设计上就考虑兼容性。</p>
+<p>言归正传，接下来介绍测试执行器的几个重点功能，以及我们怎样用pytest里的这些功能。</p>
+<h3 id="任务1安装pytest">任务1.安装pytest</h3>
+<p>和其他python库一样我们使用pip install pytest来安装pytest</p>
+<h3 id="任务2打开官方文档">任务2.打开官方文档</h3>
+<p>官方文档在这里，遇到问题时可以查阅http://docs.pytest.org/en/latest/</p>
+<h1 id="测试命名规范">测试命名规范、</h1>
+<p>pytest里，测试用例的定义较unittest做了简化。</p>
+<h3 id="1类名规范取消不用继承任何类">1.类名规范取消，不用继承任何类</h3>
+<p>上一节的例子中，我们使用unittest时，需要把测试写在类里，这个类还必须继承unittest.TestCase像这样：</p>
+<p>class TestStringMethods(unittest.TestCase)：</p>
+<p>只有继承了unittest Testcase这个类，unittest才能找到这个类里我们写的测试方法。</p>
+<p>而pytest里，不再强制要求把测试写在类里，也不需要继承任何类。</p>
+<p>取而代之的，是使用文件名规范来让pytest找到我们写的测试方法的文件。</p>
+<h3 id="2文件名以test开头注意带下划线">2.文件名以test开头，注意带下划线</h3>
+<p>例1.<strong>test 1540.py</strong>，一个pytest的例子。<strong>注意文件名</strong>。</p>
+<pre><code>import test
+def inc(x):
+    return x + 1
+def test_answer():
+    assert ins(3)==5
+if __name__=='__main__':
+    pytest.main()
+</code></pre><p>我们一起来看一下这个例子：</p>
+<p>首先第一行，导入pytest库</p>
+<p>第2-3行，定义了一个inc方法，这个方法会把传入参数加1，再返回.</p>
+<p>第4-5行，定义了一个test方法，这一点和unittest一样，测试方法名要以test开头</p>
+<p>第6-7行，定义了程序的入口，这两行可以省略</p>
+<h1 id="断言">断言</h1>
+<p>官方文档中告诉我们，pytest的断言里只要用assert就行了，不需要self.assertxxxxx。
+pytest会显示这样的错误信息给我们，以下为例1的运行结果:</p>
+<p>
+        <img class="mx-auto" alt="image.png" src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d1035083cc471ca25692bdb03ec5c2~tplv-k3u1fbpfcp-watermark.image" />   
+    </p>
+<p>
+        <img class="mx-auto" alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e6e4912e51364f5fa918ff39557be6d8~tplv-k3u1fbpfcp-watermark.image" />   
+    
+并且上一节中我们用过的自定义更详细的错误信息的方法在这里仍然适用.</p>
+<h1 id="setup和teardown">setup和teardown</h1>
+<p>所谓setup和teardown，也是xUnit系列测试执行器中的概念。比如，假设我们有3个测试方法，都是操作在线购物网站的购物车的测试，他们有一个共同的前提条件，就是用户需要先登录。那么通常在xUnit系列的测试执行器中，测试本我们会这样写：
+
+        <img class="mx-auto" alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/952d7c89e8144699bd8bd9770b3363fc~tplv-k3u1fbpfcp-watermark.image" />   
+    
+上图示意了一个带有setup和teardown操作的测试套件（test suite）的内部逻辑，这里的setup和teardown是对测试套件的，同样也可以定义对Case的和对测试方法的setup和teardown。</p>
+<p>当执行一个测试套件时，其顺序是：</p>
+<p>套件的steup===》case1的setup===》case1的测试方法====》case1的teardown====》</p>
+<p>case2的setup====》case2测试方法====》case2的teardown ====》</p>
+<p>case3的setup===》case3的测试方法====》case3的teardown ====》套件的teardown</p>
+<p>在pytest，也支持上述的传统setup和teardown，感兴趣的同学可以看官方文档：https://docs.pytest.org/en/latest/xunit_setup.html#xunitestup</p>
+<p>本文中，将介绍pytest的fixture以及用fixture实现的setup和teardown</p>
+<h2 id="pytest的fixture">Pytest的Fixture</h2>
+<p>fixture是什么？</p>
+<p>我们可以理解成fixture是提供给测试方法用的提前准备好的对象。
+举个例子，我们做网页测试，需要先打开一个浏览器，后续所有操作都是在这个浏览器上做的.fixture能做的就是给我们的每个测试方法，都准备好一个浏览器对象.</p>
+<p>同样，我们做一些测试时，需要先读取一个excel表格，然后所有测试方法，都需要用这个表格里的某些数据，那么fixture能做的就是给每个测试方法，都准备好一个已经读取完毕的excel表格对象。</p>
+<p>我们一起来看一个官网的例子
+例2.官网给的fixture例子</p>
+<pre><code># content of conftest.py
+import pytest
+import smtplib
+@pytest.fixture（scope=&quot;module&quot;）
+def smtp_connection():
+    return smtplib.SMTP(&quot;smtp.gmail.com&quot;)
+    
+# content of test_module.py
+def test_ehlo(smtp_connection):
+    response,msg = smtp_connection.ehlo()
+    assert response == 250
+    assert b&quot;smtp.gmail.com&quot;in msg
+    assert 0 # for demo purposes
+def test_noop(smtp_connection):
+    response,msg = smtp_connection.noop()
+    assert response == 250
+    assert 0 # for demo purposes
+</code></pre><p>这个例子里涉及了conftest.py和test_module.py两个文件</p>
+<p>在conftest.py中，定义了一个smtp_connection方法，这个方法使用smtplib这个库去建立了一个gmail的链接，也就是这两行</p>
+<p>def smtp connection()：
+return smtplib.SMTP(&ldquo;smtp.gmail.com&rdquo;，587，timeout=5)</p>
+<p>而@pytest.fixture（scope=&ldquo;module”）这一行表示后面紧跟的smtp_connection方法是一个fixutre，并且范围是整个module。范围是module，则表示这个fixture在每个module 只会运行一次。在这里，module的概念和测试套件差不多。本例中，整个module也就只有两个测试方法。也就是说：</p>
+<p>这个smtp_connection方法在这次整个测试中只会被执行一次。换句话说，它就相当于是整个测试套件的 setup方法了。</p>
+<p>在test module.py中，定义了两个测试方法，这两个测试方法的共同点是，传入参数里都有smtp_connection。没错，这里的smtp_connection就是conftest中的smtpconnection的返回值。</p>
+<p>虽然官网的例子我们无法运行，但是我们可以一起来回顾一下整个测试执行过程：</p>
+<ol>
+<li>先找到所有test开头的文件，称为测试脚本文件</li>
+<li>在测试脚本文件同一级目录下寻找conftest.py，称为测试配置文件</li>
+<li>按随机顺序执行测试脚本文件中的测试方法</li>
+<li>执行第一个测试方法，发现有一个传入参数 smtp_.connection，在测试配置文件中寻找名为smtp connection的fixture</li>
+<li>执行测试配置文件中的 smtp connection 方法，保存返回值</li>
+<li>把上一步的返回值代入第4步的测试方法传入参数中，执行第一个测试方法</li>
+</ol>
+
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            没有标签
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://vinyda.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://vinyda.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://vinyda.github.io/post/blog/" title="Blog">Blog</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://vinyda.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

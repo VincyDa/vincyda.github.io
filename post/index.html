@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>Posts | My New Hugo Site</title>
+    <meta property="og:title" content="Posts - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="Posts">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://vinyda.github.io/post/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="https://vinyda.github.io/post/index.xml" title="My New Hugo Site" />
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://vinyda.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://vinyda.github.io/">首页</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://vinyda.github.io/post/blog/" title="Blog">Blog</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年8月30日
+        </date>
+        
+        <div class="post-content">
+            使用pytest pytest这个库是一个第三方库，严格来说，它的设计思路不属于xUnit系列。但它使用起来比较方便，同时他又兼容unittest的用例：用unittest写的测试脚本可以用pytest来执行.
+这种兼容性的设计，在测试执行器的设计思路层面上很普遍。举个例子，几乎所有测试执行器，都兼容junit的测试报告，他们都可以输出一种最初由junit提供的xml测试报告（有些测试执行器是原生自带这个功能，有些是用插件实现这个功能）。兼容现有工具，有利于新工具的推广，因此各种比较知名的测试执行器都会从设计上就考虑兼容性。
+言归正传，接下来介绍测试执行器的几个重点功能，以及我们怎样用pytest里的这些功能。
+任务1.安装pytest 和其他python库一样我们使用pip install pytest来安装pytest
+任务2.打开官方文档 官方文档在这里，遇到问题时可以查阅http://docs.pytest.org/en/latest/
+测试命名规范、 pytest里，测试用例的定义较unittest做了简化。
+1.类名规范取消，不用继承任何类 上一节的例子中，我们使用unittest时，需要把测试写在类里，这个类还必须继承unittest.TestCase像这样：
+class TestStringMethods(unittest.TestCase)：
+只有继承了unittest Testcase这个类，unittest才能找到这个类里我们写的测试方法。
+而pytest里，不再强制要求把测试写在类里，也不需要继承任何类。
+取而代之的，是使用文件名规范来让pytest找到我们写的测试方法的文件。
+2.文件名以test开头，注意带下划线 例1.test 1540.py，一个pytest的例子。注意文件名。
+import test def inc(x): return x + 1 def test_answer(): assert ins(3)==5 if __name__=='__main__': pytest.main() 我们一起来看一下这个例子：
+首先第一行，导入pytest库
+第2-3行，定义了一个inc方法，这个方法会把传入参数加1，再返回.
+第4-5行，定义了一个test方法，这一点和unittest一样，测试方法名要以test开头
+第6-7行，定义了程序的入口，这两行可以省略
+断言 官方文档中告诉我们，pytest的断言里只要用assert就行了，不需要self.assertxxxxx。 pytest会显示这样的错误信息给我们，以下为例1的运行结果:
+并且上一节中我们用过的自定义更详细的错误信息的方法在这里仍然适用.
+setup和teardown 所谓setup和teardown，也是xUnit系列测试执行器中的概念。比如，假设我们有3个测试方法，都是操作在线购物网站的购物车的测试，他们有一个共同的前提条件，就是用户需要先登录。那么通常在xUnit系列的测试执行器中，测试本我们会这样写： 上图示意了一个带有setup和teardown操作的测试套件（test suite）的内部逻辑，这里的setup和teardown是对测试套件的，同样也可以定义对Case的和对测试方法的setup和teardown。
+当执行一个测试套件时，其顺序是：
+套件的steup===》case1的setup===》case1的测试方法====》case1的teardown====》
+case2的setup====》case2测试方法====》case2的teardown ====》
+case3的setup===》case3的测试方法====》case3的teardown ====》套件的teardown
+在pytest，也支持上述的传统setup和teardown，感兴趣的同学可以看官方文档：https://docs.pytest.org/en/latest/xunit_setup.html#xunitestup
+本文中，将介绍pytest的fixture以及用fixture实现的setup和teardown
+Pytest的Fixture fixture是什么？
+我们可以理解成fixture是提供给测试方法用的提前准备好的对象。 举个例子，我们做网页测试，需要先打开一个浏览器，后续所有操作都是在这个浏览器上做的.fixture能做的就是给我们的每个测试方法，都准备好一个浏览器对象.
+同样，我们做一些测试时，需要先读取一个excel表格，然后所有测试方法，都需要用这个表格里的某些数据，那么fixture能做的就是给每个测试方法，都准备好一个已经读取完毕的excel表格对象。
+我们一起来看一个官网的例子 例2.官网给的fixture例子
+# content of conftest.……
+        </div>
+        <p class="readmore"><a href="https://vinyda.github.io/post/blog/">阅读全文</a></p>
+    </article>
+    
+    
+    
+
+
+
+
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://vinyda.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://vinyda.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://vinyda.github.io/post/blog/" title="Blog">Blog</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://vinyda.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
