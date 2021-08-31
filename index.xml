@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My New Hugo Site</title>
-    <link>https://github.com/VincyDa/vincyda.github-io/</link>
+    <link>https://github.com/VincyDa/vincyda.github.io/</link>
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Aug 2021 19:33:43 +0800</lastBuildDate><atom:link href="https://github.com/VincyDa/vincyda.github-io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Aug 2021 19:33:43 +0800</lastBuildDate><atom:link href="https://github.com/VincyDa/vincyda.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blog</title>
-      <link>https://github.com/VincyDa/vincyda.github-io/post/blog/</link>
+      <link>https://github.com/VincyDa/vincyda.github.io/post/blog/</link>
       <pubDate>Mon, 30 Aug 2021 19:33:43 +0800</pubDate>
       
-      <guid>https://github.com/VincyDa/vincyda.github-io/post/blog/</guid>
+      <guid>https://github.com/VincyDa/vincyda.github.io/post/blog/</guid>
       <description>使用pytest pytest这个库是一个第三方库，严格来说，它的设计思路不属于xUnit系列。但它使用起来比较方便，同时他又兼容unittest的用例：用unittest写的测试脚本可以用pytest来执行.
 这种兼容性的设计，在测试执行器的设计思路层面上很普遍。举个例子，几乎所有测试执行器，都兼容junit的测试报告，他们都可以输出一种最初由junit提供的xml测试报告（有些测试执行器是原生自带这个功能，有些是用插件实现这个功能）。兼容现有工具，有利于新工具的推广，因此各种比较知名的测试执行器都会从设计上就考虑兼容性。
 言归正传，接下来介绍测试执行器的几个重点功能，以及我们怎样用pytest里的这些功能。
